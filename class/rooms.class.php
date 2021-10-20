@@ -217,9 +217,10 @@ class Rooms extends CommonObject
 
 		if (!$error) {
 			$this->db->commit();
-			return $this->createCommon($user, $notrigger);
+			return $this->createCommon($user, true);
 		} else {
 			$this->db->rollback();
+
 			return -1;
 		}
 	}
