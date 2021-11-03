@@ -96,15 +96,18 @@ class Rooms extends CommonObject
 	public $fields=array(
 		'rowid' => array('type'=>'integer', 'label'=>'TechnicalID', 'enabled'=>'1', 'position'=>1, 'notnull'=>1, 'visible'=>0, 'noteditable'=>'1', 'index'=>1, 'comment'=>"Id"),
 		'ref' => array('type'=>'varchar(128)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>10, 'notnull'=>1, 'visible'=>1, 'index'=>1, 'searchall'=>1, 'showoncombobox'=>'1', 'comment'=>"Reference of object"),
-		'label' => array('type'=>'varchar(255)', 'label'=>'Label', 'enabled'=>'1', 'position'=>30, 'notnull'=>0, 'visible'=>1, 'searchall'=>1, 'css'=>'minwidth200', 'help'=>"Help text", 'showoncombobox'=>'1',),
+		'label' => array('type'=>'varchar(255)', 'label'=>'Label', 'enabled'=>'1', 'position'=>30, 'notnull'=>0, 'visible'=>1, 'searchall'=>1, 'help'=>"Help text", 'showoncombobox'=>'1',),
 		'description' => array('type'=>'text', 'label'=>'Description', 'enabled'=>'1', 'position'=>60, 'notnull'=>0, 'visible'=>3,),
-		'date_creation' => array('type'=>'datetime', 'label'=>'DateCreation', 'enabled'=>'1', 'position'=>500, 'notnull'=>1, 'visible'=>2,),
+		'date_creation' => array('type'=>'datetime', 'label'=>'DateCreation', 'enabled'=>'1', 'position'=>500, 'notnull'=>1, 'visible'=>0,),
 		'tms' => array('type'=>'timestamp', 'label'=>'DateModification', 'enabled'=>'1', 'position'=>501, 'notnull'=>0, 'visible'=>-2,),
-		'fk_user_creat' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserAuthor', 'enabled'=>'1', 'position'=>510, 'notnull'=>1, 'visible'=>2, 'foreignkey'=>'user.rowid',),
+		'fk_user_creat' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserAuthor', 'enabled'=>'1', 'position'=>510, 'notnull'=>1, 'visible'=>0, 'foreignkey'=>'user.rowid',),
 		'fk_user_modif' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserModif', 'enabled'=>'1', 'position'=>511, 'notnull'=>-1, 'visible'=>0,),
+		'entry_url' => array('type'=>'varchar(255)', 'label'=>'Entry URL', 'enabled'=>'1', 'position'=>512, 'notnull'=>0, 'visible'=>1, 'foreignkey'=>'entryurl.rowid', 'searchall'=>1, 'comment'=>"URL de Entrada"),
+		'fk_host_entry' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'Host da entrada', 'enabled'=>'1', 'position'=>513, 'notnull'=>1, 'visible'=>3,),
+		'destiny_url' => array('type'=>'varchar(255)', 'label'=>'Destiny URL', 'enabled'=>'1', 'position'=>514, 'notnull'=>0, 'visible'=>1, 'foreignkey'=>'destinyurl.rowid', 'searchall'=>1, 'comment'=>"URL de destino"),
+		'fk_host_destiny' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'Host do destino', 'enabled'=>'1', 'position'=>515, 'notnull'=>1, 'visible'=>3,),
+		'start_time' => array('type'=>'duration', 'label'=>'StartTime', 'enabled'=>'1', 'position'=>500, 'notnull'=>1, 'visible'=>1,),
 		'status' => array('type'=>'smallint', 'label'=>'Status', 'enabled'=>'1', 'position'=>1000, 'notnull'=>1, 'visible'=>1, 'index'=>1, 'arrayofkeyval'=>array('0'=>'Desabilitado', '1'=>'Habilitado'),),
-		'entry_url' => array('type'=>'integer:Entryurl:custom/meetrect/class/entryurl.class.php:1', 'label'=>'EntryURL', 'enabled'=>'1', 'position'=>512, 'notnull'=>1, 'visible'=>1, 'foreignkey'=>'entryurl.rowid', 'searchall'=>1, 'comment'=>"URL de Entrada"),
-		'destiny_url' => array('type'=>'integer:Destinyurl:custom/meetrect/class/destinyurl.class.php:1', 'label'=>'DestinyURL', 'enabled'=>'1', 'position'=>513, 'notnull'=>1, 'visible'=>1, 'foreignkey'=>'destinyurl.rowid', 'searchall'=>1, 'comment'=>"URL de destino"),
 	);
 	public $rowid;
 	public $ref;
@@ -114,9 +117,12 @@ class Rooms extends CommonObject
 	public $tms;
 	public $fk_user_creat;
 	public $fk_user_modif;
-	public $status;
 	public $entry_url;
+	public $fk_host_entry;
 	public $destiny_url;
+	public $fk_host_destiny;
+	public $start_time;
+	public $status;
 	// END MODULEBUILDER PROPERTIES
 
 

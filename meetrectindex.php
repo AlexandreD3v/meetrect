@@ -76,9 +76,25 @@ $formfile = new FormFile($db);
 
 llxHeader("", $langs->trans("MeetrectArea"));
 
-print load_fiche_titre($langs->trans("MeetrectArea"), '', 'meetrect.png@meetrect');
+//print load_fiche_titre($langs->trans("MeetrectArea"), '', 'meetrect.png@meetrect');
 
-print '<div class="fichecenter"><div class="fichethirdleft">';
+print '<div class="fichecenter">
+		<div class="tabBar tabBarWithBottom">
+
+
+		<h1>MEETRECT FOR <a href="https://www.dolibarr.org">DOLIBARR ERP CRM</a></h1>
+		<span class="opacitymedium">'.$langs->trans("MeetrectPublicAccess").'</span> : <a class="wordbreak" href="'.dol_buildpath('/custom/meetrect/public/index.php?room=[nome_da_sala]', 1).'" target="_blank" >'.dol_buildpath('/custom/meetrect/public/index.php?room=[nome_da_sala]', 2).'</a>
+			<h2>Funções</h2>
+			<p>O Meetrect é um redirecionador de links/urls, que permite ao usuário fornecer um link personalizado pelo Dolibarr para redirecionar um espectador a uma url ou sala de chamada virtual específica, permitindo que mais de um usuário do Dolibarr gerencie uma url de entrada para direcionar à diferentes salas virtuais que tenham um mesmo objetivo.</p>
+			<h2>Como utilizar</h2>
+			<p>Na tela "Minhas salas", você verá as salas que está como host (administrador da sala) e em "Todas salas" serão listadas todas as salas cadastradas no sistema.</p>
+			<p>Clique no botão "Novo", cadastre as informações da sala e salve.</p>
+			<p>Quando existir mais de uma sala apontando para o mesma url de entrada, apenas um dos registros poderá estar com o status ativo.</p>
+			<h3>ATENÇÃO!</h3>
+			<p>Para que o usuário possa acessar a url de entrada é necessário ativar o acesso a interface pública do módulo em Configurações -> Módulos / Aplicações -> Botão de configuração do Módulo Meetrect.</p>
+		</div>
+
+<div class="fichethirdleft">';
 
 
 /* BEGIN MODULEBUILDER DRAFT MYOBJECT

@@ -2,7 +2,15 @@
 
 ## Features
 
-Virtual call link redirector, allows the user to provide a link through Dolibarr to redirect the viewer to a specific virtual call room, allowing more than one user to manage the link in Dolibarr to manage the same virtual call.
+Meetrect is a link/url redirector, which allows a user to provide a custom Dolibarr link to redirect a viewer to a specific url or virtual call room, allowing more than one Dolibarr user to manage an input url to direct to different virtual rooms that have the same objective.
+
+## How it works
+In the "My rooms" screen, you will see the rooms that you are as host (room administrator) and in "All rooms" all rooms registered in the system will be listed.
+Click on the "New" button, register the room information and save.
+When there is more than one room pointing to the same input url, only one of the records can have the active status.
+
+### ATTENTION
+In order for the user to access the input url, it is necessary to enable access to the module's public interface in Settings -> Modules / Applications -> Meetrect Module configuration button.
 
 ## Licenses
 

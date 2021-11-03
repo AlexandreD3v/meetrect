@@ -220,20 +220,20 @@ class modMeetrect extends DolibarrModules
 		// Cronjobs (List of cron jobs entries to add when module is enabled)
 		// unit_frequency must be 60 for minute, 3600 for hour, 86400 for day, 604800 for week
 		$this->cronjobs = array(
-			//  0 => array(
-			//      'label' => 'MyJob label',
-			//      'jobtype' => 'method',
-			//      'class' => '/meetrect/class/linkentrada.class.php',
-			//      'objectname' => 'LinkEntrada',
-			//      'method' => 'doScheduledJob',
-			//      'parameters' => '',
-			//      'comment' => 'Comment',
-			//      'frequency' => 2,
-			//      'unitfrequency' => 3600,
-			//      'status' => 0,
-			//      'test' => '$conf->meetrect->enabled',
-			//      'priority' => 50,
-			//  ),
+			  0 => array(
+			      'label' => 'MyJob label',
+			      'jobtype' => 'method',
+			      'class' => '/meetrect/class/rooms.class.php',
+			      'objectname' => 'Room',
+			      'method' => 'send_alert_email',
+			      'parameters' => '',
+			      'comment' => 'Comment',
+			      'frequency' => 5,
+			      'unitfrequency' => 60,
+			      'status' => 1,
+			      'test' => '$conf->meetrect->enabled',
+			      'priority' => 50,
+			  ),
 		);
 		// Example: $this->cronjobs=array(
 		//    0=>array('label'=>'My label', 'jobtype'=>'method', 'class'=>'/dir/class/file.class.php', 'objectname'=>'MyClass', 'method'=>'myMethod', 'parameters'=>'param1, param2', 'comment'=>'Comment', 'frequency'=>2, 'unitfrequency'=>3600, 'status'=>0, 'test'=>'$conf->meetrect->enabled', 'priority'=>50),
@@ -263,39 +263,6 @@ class modMeetrect extends DolibarrModules
 		$this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->rights->meetrect->level1->level2)
 		$r++;
 
-		// Entry URL
-		$this->rights[$r][0] = $this->numero + $r; // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Read objects of Entry URL'; // Permission label
-		$this->rights[$r][4] = 'entryurl'; // In php code, permission will be checked by test if ($user->rights->meetrect->level1->level2)
-		$this->rights[$r][5] = 'read'; // In php code, permission will be checked by test if ($user->rights->meetrect->level1->level2)
-		$r++;
-		$this->rights[$r][0] = $this->numero + $r; // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Create/Update objects of Entry URL'; // Permission label
-		$this->rights[$r][4] = 'entryurl'; // In php code, permission will be checked by test if ($user->rights->meetrect->level1->level2)
-		$this->rights[$r][5] = 'write'; // In php code, permission will be checked by test if ($user->rights->meetrect->level1->level2)
-		$r++;
-		$this->rights[$r][0] = $this->numero + $r; // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Delete objects of Entry URL'; // Permission label
-		$this->rights[$r][4] = 'entryurl'; // In php code, permission will be checked by test if ($user->rights->meetrect->level1->level2)
-		$this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->rights->meetrect->level1->level2)
-		$r++;
-
-		// Destiny URL
-		$this->rights[$r][0] = $this->numero + $r; // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Read objects of Destiny URL'; // Permission label
-		$this->rights[$r][4] = 'destinyurl'; // In php code, permission will be checked by test if ($user->rights->meetrect->level1->level2)
-		$this->rights[$r][5] = 'read'; // In php code, permission will be checked by test if ($user->rights->meetrect->level1->level2)
-		$r++;
-		$this->rights[$r][0] = $this->numero + $r; // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Create/Update objects of Destiny URL'; // Permission label
-		$this->rights[$r][4] = 'destinyurl'; // In php code, permission will be checked by test if ($user->rights->meetrect->level1->level2)
-		$this->rights[$r][5] = 'write'; // In php code, permission will be checked by test if ($user->rights->meetrect->level1->level2)
-		$r++;
-		$this->rights[$r][0] = $this->numero + $r; // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Delete objects of Destiny URL'; // Permission label
-		$this->rights[$r][4] = 'destinyurl'; // In php code, permission will be checked by test if ($user->rights->meetrect->level1->level2)
-		$this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->rights->meetrect->level1->level2)
-		$r++;
 		/* END MODULEBUILDER PERMISSIONS */
 
 		// Main menu entries to add
@@ -309,7 +276,7 @@ class modMeetrect extends DolibarrModules
 			'titre'=>'ModuleMeetrectName',
 			'mainmenu'=>'meetrect',
 			'leftmenu'=>'',
-			'url'=>'/meetrect/rooms_list.php',
+			'url'=>'/meetrect/meetrectindex.php',
 			'langs'=>'meetrect@meetrect', // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 			'position'=>1000 + $r,
 			'enabled'=>'$conf->meetrect->enabled', // Define condition to show or hide menu entry. Use '$conf->meetrect->enabled' if entry must be visible if module is enabled.
@@ -416,89 +383,6 @@ class modMeetrect extends DolibarrModules
             // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
             'langs'=>'meetrect@meetrect',
             'position'=>1100+$r,
-            // Define condition to show or hide menu entry. Use '$conf->meetrect->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-            'enabled'=>'$conf->meetrect->enabled',
-            // Use 'perms'=>'$user->rights->meetrect->level1->level2' if you want your menu with a permission rules
-            'perms'=>'1',
-            'target'=>'',
-            // 0=Menu for internal users, 1=external users, 2=both
-            'user'=>2
-        );
-
-        $this->menu[$r++]=array(
-            // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-            'fk_menu'=>'fk_mainmenu=meetrect',
-            // This is a Left menu entry
-            'type'=>'left',
-            'titre'=>'Lista de URL de entrada',
-            'mainmenu'=>'meetrect',
-            'leftmenu'=>'meetrect_entryurl',
-            'url'=>'/meetrect/entryurl_list.php',
-            // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
-            'langs'=>'meetrect@meetrect',
-            'position'=>1200+$r,
-            // Define condition to show or hide menu entry. Use '$conf->meetrect->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-            'enabled'=>'$conf->meetrect->enabled',
-            // Use 'perms'=>'$user->rights->meetrect->level1->level2' if you want your menu with a permission rules
-            'perms'=>'1',
-            'target'=>'',
-            // 0=Menu for internal users, 1=external users, 2=both
-            'user'=>2,
-        );
-        $this->menu[$r++]=array(
-            // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-            'fk_menu'=>'fk_mainmenu=meetrect,fk_leftmenu=meetrect_entryurl',
-            // This is a Left menu entry
-            'type'=>'left',
-            'titre'=>'Novo URL de entrada',
-            'mainmenu'=>'meetrect',
-            'leftmenu'=>'meetrect_entryurl',
-            'url'=>'/meetrect/entryurl_card.php?action=create',
-            // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
-            'langs'=>'meetrect@meetrect',
-            'position'=>1200+$r,
-            // Define condition to show or hide menu entry. Use '$conf->meetrect->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-            'enabled'=>'$conf->meetrect->enabled',
-            // Use 'perms'=>'$user->rights->meetrect->level1->level2' if you want your menu with a permission rules
-            'perms'=>'1',
-            'target'=>'',
-            // 0=Menu for internal users, 1=external users, 2=both
-            'user'=>2
-        );
-
-        $this->menu[$r++]=array(
-            // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-            'fk_menu'=>'fk_mainmenu=meetrect',
-            // This is a Left menu entry
-            'type'=>'left',
-            'titre'=>'Lista de URL de destino',
-            'mainmenu'=>'meetrect',
-            'leftmenu'=>'meetrect_destinyurl',
-            'url'=>'/meetrect/destinyurl_list.php',
-            // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
-            'langs'=>'meetrect@meetrect',
-            'position'=>1300+$r,
-            // Define condition to show or hide menu entry. Use '$conf->meetrect->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-            'enabled'=>'$conf->meetrect->enabled',
-            // Use 'perms'=>'$user->rights->meetrect->level1->level2' if you want your menu with a permission rules
-            'perms'=>'1',
-            'target'=>'',
-            // 0=Menu for internal users, 1=external users, 2=both
-            'user'=>2,
-        );
-
-        $this->menu[$r++]=array(
-            // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-            'fk_menu'=>'fk_mainmenu=meetrect,fk_leftmenu=meetrect_destinyurl',
-            // This is a Left menu entry
-            'type'=>'left',
-            'titre'=>'Novo URL de destino',
-            'mainmenu'=>'meetrect',
-            'leftmenu'=>'meetrect_destinyurl',
-            'url'=>'/meetrect/destinyurl_card.php?action=create',
-            // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
-            'langs'=>'meetrect@meetrect',
-            'position'=>1300+$r,
             // Define condition to show or hide menu entry. Use '$conf->meetrect->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
             'enabled'=>'$conf->meetrect->enabled',
             // Use 'perms'=>'$user->rights->meetrect->level1->level2' if you want your menu with a permission rules

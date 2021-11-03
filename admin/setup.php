@@ -196,7 +196,7 @@ llxHeader('', $langs->trans($page_name));
 $linkback = '<a href="'.($backtopage ? $backtopage : DOL_URL_ROOT.'/admin/modules.php?restore_lastsearch_values=1').'">'.$langs->trans("BackToModuleList").'</a>';
 
 print load_fiche_titre($langs->trans($page_name), $linkback, 'object_meetrect@meetrect');
-print '<span class="opacitymedium">'.$langs->trans("MeetrectPublicAccess").'</span> : <a class="wordbreak" href="'.dol_buildpath('/custom/meetrect/public/index.php', 1).'" target="_blank" >'.dol_buildpath('/custom/meetrect/public/index.php', 2).'</a>';
+print '<span class="opacitymedium">'.$langs->trans("MeetrectPublicAccess").'</span> : <a class="wordbreak" href="'.dol_buildpath('/custom/meetrect/public/index.php?room=[nome_da_sala]', 1).'" target="_blank" >'.dol_buildpath('/custom/meetrect/public/index.php?room=[nome_da_sala]', 2).'</a>';
 
 // Configuration header
 $head = meetrectAdminPrepareHead();

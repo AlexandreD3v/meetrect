@@ -62,7 +62,6 @@ require_once DOL_DOCUMENT_ROOT.'/core/lib/company.lib.php';
 
 // load meetrect libraries
 require_once __DIR__.'/class/rooms.class.php';
-require_once __DIR__.'/class/destinyurl.class.php';
 
 // for other modules
 //dol_include_once('/othermodule/class/otherobject.class.php');
@@ -95,7 +94,6 @@ $pagenext = $page + 1;
 
 // Initialize technical objects
 $object = new Rooms($db);
-$objectd = new DestinyURL($db);
 $extrafields = new ExtraFields($db);
 $diroutputmassaction = $conf->meetrect->dir_output.'/temp/massgeneration/'.$user->id;
 $hookmanager->initHooks(array('roomslist')); // Note that conf->hooks_modules contains array
@@ -244,8 +242,7 @@ $sql .= " FROM ".MAIN_DB_PREFIX.$object->table_element." as t";
 //if (is_array($extrafields->attributes[$object->table_element]['label']) && count($extrafields->attributes[$object->table_element]['label'])) $sql .= " LEFT JOIN ".MAIN_DB_PREFIX.$object->table_element."_extrafields as ef on (t.rowid = ef.fk_object)";
 
 if (!$allrooms) {
-	$sql .= " WHERE t.destiny_url IN (
-	 SELECT d.rowid FROM ".MAIN_DB_PREFIX.$objectd->table_element." as d WHERE d.fk_host = ".$user->id.")";
+	$sql .= " WHERE t.fk_host_entry = ".$user->id." OR t.fk_host_destiny = ".$user->id;
 }
 //else $sql .= " WHERE 1 = 1";
 foreach ($search as $key => $val)

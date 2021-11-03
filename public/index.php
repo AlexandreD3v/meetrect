@@ -34,15 +34,15 @@ $entity = (!empty($_GET['entity']) ? (int) $_GET['entity'] : (!empty($_POST['ent
 if (is_numeric($entity)) define("DOLENTITY", $entity);
 
 require '../../../main.inc.php';
+
+
 require_once DOL_DOCUMENT_ROOT.'/ticket/class/actions_ticket.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formticket.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/ticket.lib.php';
-require_once DOL_DOCUMENT_ROOT.'/core/lib/security.lib.php';
-require_once DOL_DOCUMENT_ROOT.'/core/lib/company.lib.php';
+//require_once DOL_DOCUMENT_ROOT.'/core/lib/security.lib.php';
+//require_once DOL_DOCUMENT_ROOT.'/core/lib/company.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/payments.lib.php';
 
-require_once DOL_DOCUMENT_ROOT.'/custom/meetrect/class/destinyurl.class.php';
-require_once DOL_DOCUMENT_ROOT.'/custom/meetrect/class/entryurl.class.php';
 require_once DOL_DOCUMENT_ROOT.'/custom/meetrect/class/rooms.class.php';
 
 
@@ -54,20 +54,26 @@ $track_id = GETPOST('track_id', 'alpha');
 $action = GETPOST('action', 'alpha');
 $roomid = GETPOST('room', 'alpha');
 
-$entryroom = new EntryURL($db);
-$destinyroom = new DestinyURL($db);
 $room = new Rooms($db);
 
 // Select
 // --------------------------------------------------------------------
-$sql = "SELECT dr.url FROM ".MAIN_DB_PREFIX.$destinyroom->table_element." as dr
-    INNER JOIN ".MAIN_DB_PREFIX.$room->table_element." AS r ON r.destiny_url = dr.rowid
-    INNER JOIN ".MAIN_DB_PREFIX.$entryroom->table_element." AS er ON r.entry_url = er.rowid
-    WHERE er.url LIKE '".$roomid."' AND dr.status = 1";
+$sql = "SELECT r.label, r.entry_url, r.destiny_url, r.description, r.start_time FROM ".MAIN_DB_PREFIX.$room->table_element." as r
+WHERE r.entry_url LIKE '%".$roomid."%' AND r.status = 1";
 
 $resql = $db->query($sql);
 
 $resposta = $db->fetch_object($resql);
+
+$minutos  = ( $resposta->start_time / 60 ) % 60;     // 60000   = 60 * 1000
+$horas    = $resposta->start_time / 3600 % 12;            // 3600000 = 60 * 60 * 1000
+
+if(!strpos($resposta->destiny_url, "http")){
+    $strhref = "http://".$resposta->destiny_url;
+}
+else{
+    $strhref = $resposta->destiny_url;    
+}
 
 /*
  * View
@@ -88,8 +94,15 @@ llxHeaderTicket("Meetrect", "", 0, 0, $arrayofjs, $arrayofcss);
 print '<div class="ticketpublicarea">';
 print '<p style="text-align: center">Meetrect - gerenciador de salas virtuais</p>';
 print '<div class="ticketform">';
-print '<p style="text-align: center">Acese a sala desejada</p>';
-print '<a href="'.$resposta->url.'" class="butAction marginbottomonly"><br>'.$resposta->url.'</div></a>';
+
+if($resposta){
+    print '<p style="text-align: center">'.$resposta->label.' - Início: '.$horas.':'.$minutos.'</p>
+    <p style="text-align: center">'.$resposta->description.'</p>';
+    print '<a href="'.$strhref.'" class="butAction marginbottomonly"><br> Acessar '.$strhref.'</div></a>';
+}
+else{
+    print '<p style="text-align: center">Nenhuma sala informada!</p>';
+}
 
 print '<div style="clear:both;"></div>';
 print '</div>';

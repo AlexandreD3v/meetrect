@@ -24,8 +24,11 @@ CREATE TABLE llx_meetrect_rooms(
 	tms timestamp, 
 	fk_user_creat integer NOT NULL, 
 	fk_user_modif integer, 
-	status smallint NOT NULL, 
-	entry_url integer NOT NULL, 
-	destiny_url integer NOT NULL
+	entry_url varchar(255), 
+	fk_host_entry integer NOT NULL, 
+	destiny_url varchar(255), 
+	fk_host_destiny integer NOT NULL, 
+	start_time integer NOT NULL, 
+	status smallint NOT NULL
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;

@@ -18,9 +18,9 @@
 ALTER TABLE llx_meetrect_rooms ADD INDEX idx_meetrect_rooms_rowid (rowid);
 ALTER TABLE llx_meetrect_rooms ADD INDEX idx_meetrect_rooms_ref (ref);
 ALTER TABLE llx_meetrect_rooms ADD CONSTRAINT llx_meetrect_rooms_fk_user_creat FOREIGN KEY (fk_user_creat) REFERENCES llx_user(rowid);
-ALTER TABLE llx_meetrect_rooms ADD INDEX idx_meetrect_rooms_status (status);
 ALTER TABLE llx_meetrect_rooms ADD CONSTRAINT llx_meetrect_rooms_entry_url FOREIGN KEY (entry_url) REFERENCES llx_entryurl(rowid);
 ALTER TABLE llx_meetrect_rooms ADD CONSTRAINT llx_meetrect_rooms_destiny_url FOREIGN KEY (destiny_url) REFERENCES llx_destinyurl(rowid);
+ALTER TABLE llx_meetrect_rooms ADD INDEX idx_meetrect_rooms_status (status);
 -- END MODULEBUILDER INDEXES
 
 --ALTER TABLE llx_meetrect_rooms ADD UNIQUE INDEX uk_meetrect_rooms_fieldxy(fieldx, fieldy);
